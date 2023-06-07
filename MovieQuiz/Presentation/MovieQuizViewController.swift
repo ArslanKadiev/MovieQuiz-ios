@@ -23,7 +23,7 @@ final class MovieQuizViewController: UIViewController {
     }
 
     @IBAction private func noButtonClicked(_ sender: UIButton) {
-        if allowAnswer == true{
+        if allowAnswer == true {
             let currentQuestion = questions[currentQuestionIndex]
             let giveAnswer = false
             
@@ -52,7 +52,9 @@ final class MovieQuizViewController: UIViewController {
             correctAnswer += 1
         } else { imageView.layer.borderColor = UIColor(named: "YP Red")?.cgColor
         }
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { [weak self] in
+            guard let self = self else { return }
             self.showNextQuestionOrResults()
         }
     }
@@ -92,7 +94,8 @@ final class MovieQuizViewController: UIViewController {
             message: result.text,
             preferredStyle: .alert)
         
-        let action = UIAlertAction(title: result.buttonText, style: .default) { _ in
+        let action = UIAlertAction(title: result.buttonText, style: .default) { [weak self] _ in
+            guard let self = self else {return}
             
             self.currentQuestionIndex = 0
             self.correctAnswer = 0
