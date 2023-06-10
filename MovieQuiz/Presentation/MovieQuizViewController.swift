@@ -1,6 +1,6 @@
 import UIKit
 
-final class MovieQuizViewController: UIViewController {
+final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
     
     @IBOutlet private var imageView: UIImageView!
     @IBOutlet private var textLabel: UILabel!
@@ -12,7 +12,7 @@ final class MovieQuizViewController: UIViewController {
     private var allowAnswer: Bool = true
     
     private let questionsAmount: Int = 10
-    private let questionFactory: QuestionFactory = QuestionFactory()
+    private var questionFactory: QuestionFactoryProtocol?
     private var currentQuestion: QuizQuestion?
 
     
@@ -83,11 +83,7 @@ final class MovieQuizViewController: UIViewController {
             currentQuestionIndex += 1
             imageView.layer.masksToBounds = true
             imageView.layer.borderWidth = 0
-            if let nextQuestion = questionFactory.requestNextQuestion() {
-                currentQuestion = nextQuestion
-                let viewModel = convert(model: nextQuestion)
-                show(quiz: viewModel)
-            }
+            questionFactory?.requestNextQuestion()
            // let viewModel = convert(model: nextQuestion)
             allowAnswer = true
             //show(quiz: viewModel)
@@ -118,11 +114,7 @@ final class MovieQuizViewController: UIViewController {
             self.imageView.layer.masksToBounds = true
             self.imageView.layer.borderWidth = 0
             self.allowAnswer = true
-            if let firstQuestion = self.questionFactory.requestNextQuestion(){
-                self.currentQuestion = firstQuestion
-                let viewModel = self.convert(model: firstQuestion)
-                self.show(quiz: viewModel)
-            }
+            questionFactory?.requestNextQuestion()
           //  let viewModel = self.convert(model: firstQuestion)
           //  self.show(quiz: viewModel)
         }
@@ -137,15 +129,30 @@ final class MovieQuizViewController: UIViewController {
     override func viewDidLoad() {
     
         super.viewDidLoad()
-        if let firstQuestion = questionFactory.requestNextQuestion() {
-            currentQuestion = firstQuestion
-            let viewModel = convert(model: firstQuestion)
-            show(quiz: viewModel)
-        }
+        imageView.layer.cornerRadius = 20
+        
+        questionFactory = QuestionFactory(delegate: self)
+        
+        questionFactory?.requestNextQuestion()
         //show(quiz: convert(model: currentQuestion))
         //imageView.layer.cornerRadius = 20
     }
+    // MARK: - QuestionFactoryDelegate
     
+    func didReceiveNextQuestion(question: QuizQuestion?) {
+        
+        guard let question = question else {
+            return
+        }
+        
+        currentQuestion = question
+        let viewModel = convert(model: question)
+        DispatchQueue.main.async {[weak self] in
+            self?.show(quiz: viewModel)
+        }
+        
+        
+    }
     
 }
 
