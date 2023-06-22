@@ -26,12 +26,12 @@ class QuestionFactory: QuestionFactoryProtocol {
     private weak var delegate: QuestionFactoryDelegate?
     
     
-    init(moviesLoader: MoviesLoading, delegate: QuestionFactoryDelegate?) {
+    init(moviesLoader: MoviesLoading, delegate: QuestionFactoryDelegate) {
         self.moviesLoader = moviesLoader
         self.delegate = delegate
     }
     
-    private var movies: [MostPopularMovies] = []
+    private var movies: [MostPopularMovie] = []
     
     /*    private let questions: [QuizQuestion] = [
      QuizQuestion (

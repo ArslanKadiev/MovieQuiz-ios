@@ -92,14 +92,14 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate, 
     
     private func showNextQuestionOrResults() {
         if currentQuestionIndex == questionsAmount - 1 {
-            // показать результат квиза
+            
             let text = "Ваш  результат: \(correctAnswer)/10"
             let viewModel = QuizResultsViewModel (title: "Этот раунд окончен!", text: text, buttonText: "Сыграть еще раз")
             show(quiz: viewModel)
             
         } else {
-            currentQuestionIndex += 1 // увеличиваем индекс текущего урока на 1; таким образом мы сможем получить следующий урок
-            // показать следующий вопрос
+            currentQuestionIndex += 1 
+            
             imageView.layer.masksToBounds = true
             imageView.layer.borderWidth = 0
             noButton.isEnabled = true
