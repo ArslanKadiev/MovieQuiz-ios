@@ -31,7 +31,7 @@ class MoviesLoaderTests: XCTestCase{
     
     func testFailureLoading() throws{
         //given
-        
+        //sleep(3)
         //when
         
         //then
