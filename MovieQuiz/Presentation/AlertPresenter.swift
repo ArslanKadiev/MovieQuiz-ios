@@ -13,7 +13,7 @@ protocol AlertPresenterProtocol {
 }
 
 
-class AlertPresenter: AlertPresenterProtocol {
+final class AlertPresenter: AlertPresenterProtocol {
     
     weak var delegate: MovieQuizProtocolDelegate?
     
@@ -22,6 +22,7 @@ class AlertPresenter: AlertPresenterProtocol {
     }
     
     func showAlert(alertModel: AlertModel) {
+        
         let alert = UIAlertController(
             title: alertModel.title,
             message: alertModel.message,
@@ -32,6 +33,7 @@ class AlertPresenter: AlertPresenterProtocol {
         }
         alert.addAction(action)
         delegate?.presentAlert(alert: alert)
+        alert.view.accessibilityIdentifier = "Result alert"
     }
 }
 
