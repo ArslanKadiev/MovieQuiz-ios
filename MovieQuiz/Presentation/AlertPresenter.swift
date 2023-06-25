@@ -7,6 +7,11 @@
 
 import UIKit
 
+protocol AlertPresenterProtocol {
+    func showAlert (alertModel: AlertModel) -> Void
+    var delegate: MovieQuizProtocolDelegate? {get}
+}
+
 
 class AlertPresenter: AlertPresenterProtocol {
     
@@ -29,3 +34,5 @@ class AlertPresenter: AlertPresenterProtocol {
         delegate?.presentAlert(alert: alert)
     }
 }
+
+
