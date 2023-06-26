@@ -33,6 +33,7 @@
 		EF2A5ABC2A482B9800F6763A /* ArrayTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF2A5ABB2A482B9800F6763A /* ArrayTests.swift */; };
 		EF2A5ABE2A4833BA00F6763A /* MoviesLoaderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF2A5ABD2A4833BA00F6763A /* MoviesLoaderTests.swift */; };
 		EF2A5AC62A48B0E400F6763A /* MovieQuizUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF2A5AC52A48B0E400F6763A /* MovieQuizUITests.swift */; };
+		EF2A5ACF2A49BD5200F6763A /* MovieQuizPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF2A5ACE2A49BD5200F6763A /* MovieQuizPresenter.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -83,6 +84,7 @@
 		EF2A5ABD2A4833BA00F6763A /* MoviesLoaderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviesLoaderTests.swift; sourceTree = "<group>"; };
 		EF2A5AC32A48B0E400F6763A /* MovieQuizUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MovieQuizUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		EF2A5AC52A48B0E400F6763A /* MovieQuizUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieQuizUITests.swift; sourceTree = "<group>"; };
+		EF2A5ACE2A49BD5200F6763A /* MovieQuizPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieQuizPresenter.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -116,6 +118,7 @@
 				AD1ABAB52831907B00B3E448 /* MovieQuizViewController.swift */,
 				AD1ABAB72831907B00B3E448 /* Main.storyboard */,
 				EF2A5A9D2A371A0400F6763A /* AlertPresenter.swift */,
+				EF2A5ACE2A49BD5200F6763A /* MovieQuizPresenter.swift */,
 			);
 			path = Presentation;
 			sourceTree = "<group>";
@@ -395,6 +398,7 @@
 				EF2A5A8D2A338DF400F6763A /* QuestionFactory.swift in Sources */,
 				AD77F5742857F8810062FB14 /* Date+Extensions.swift in Sources */,
 				EF2A5AAC2A4475F300F6763A /* MoviesLoader.swift in Sources */,
+				EF2A5ACF2A49BD5200F6763A /* MovieQuizPresenter.swift in Sources */,
 				AD1ABAB22831907B00B3E448 /* AppDelegate.swift in Sources */,
 				EF2A5AAA2A44754100F6763A /* MostPopularMovies.swift in Sources */,
 				AD1ABAB42831907B00B3E448 /* SceneDelegate.swift in Sources */,
