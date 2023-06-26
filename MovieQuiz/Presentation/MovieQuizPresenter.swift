@@ -15,6 +15,8 @@ final class MovieQuizPresenter {
     private var currentQuestionIndex: Int = 0
     var currentQuestion: QuizQuestion?
     weak var viewController: MovieQuizViewController?
+    var correctAnswer: Int = 0
+    var questionFactory: QuestionFactoryProtocol?
     
     func isLastQuestion() -> Bool {
             currentQuestionIndex == questionsAmount - 1
@@ -35,26 +37,53 @@ final class MovieQuizPresenter {
             question: model.text,
             questionNumber: "\(currentQuestionIndex+1)/\(questionsAmount)")
     }
+         
+    func didRecieveNextQuestion(question: QuizQuestion?) {
+            guard let question = question else {
+                return
+            }
+            
+            currentQuestion = question
+            let viewModel = convert(model: question)
+            DispatchQueue.main.async { [weak self] in
+                self?.viewController?.show(quiz: viewModel)
+            }
+        }
+    
+    func showNextQuestionOrResults() {
+        if self.isLastQuestion() {
+            
+            let text = "Ваш  результат: \(correctAnswer)/10"
+            let viewModel = QuizResultsViewModel (title: "Этот раунд окончен!", text: text, buttonText: "Сыграть еще раз")
+            viewController?.show(quiz: viewModel)
+            
+        } else {
+            self.switchToNextQuestion()
+            questionFactory?.requestNextQuestion()
+            
+//            imageView.layer.masksToBounds = true
+//            imageView.layer.borderWidth = 0
+//            noButton.isEnabled = true
+//            yesButton.isEnabled = true
+            questionFactory?.requestNextQuestion()
+        }
+    }
     
     func yesButtonClicked() {
-            guard let currentQuestion = currentQuestion else {
-                return
-            }
-            
-            let givenAnswer = true
-            
-            viewController?.showAnswerResult(isCorrect: givenAnswer == currentQuestion.correctAnswer)
+            didAnswer(isYes: true)
         }
-    
+        
     func noButtonClicked() {
-            guard let currentQuestion = currentQuestion else {
+            didAnswer(isYes: false)
+        }
+        
+    private func didAnswer(isYes: Bool) {
+        guard let currentQuestion = currentQuestion else {
                 return
             }
             
-            let givenAnswer = false
+        let givenAnswer = isYes
             
-            viewController?.showAnswerResult(isCorrect: givenAnswer == currentQuestion.correctAnswer)
-        }
-    
-    
+        viewController?.showAnswerResult(isCorrect: givenAnswer == currentQuestion.correctAnswer)
+    }
 }
