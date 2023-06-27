@@ -97,30 +97,4 @@ final class MovieQuizUITests: XCTestCase {
 
 
 }
-//    func testScreenCast() throws {
-//
-//        let app = XCUIApplication()
-//        app/*@START_MENU_TOKEN@*/.staticTexts["Да"]/*[[".buttons[\"Да\"].staticTexts[\"Да\"]",".staticTexts[\"Да\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.tap()
-//        app.buttons["Нет"].tap()
-//
-//        let button = app.buttons["Да"]
-//        button.tap()
-//        button.tap()
-//        button.tap()
-//        button.tap()
-//        button.tap()
-//        button.tap()
-//        button.tap()
-//        button.tap()
-//        button.tap()
-//        app.alerts["Этот раунд окончен!"].scrollViews.otherElements.buttons["Сыграть еще раз"].tap()
-//
-//    }
 
-//    func testExample() throws {
-//
-//        let app = XCUIApplication()
-//        app.launch()
-//
-//
-//    }
