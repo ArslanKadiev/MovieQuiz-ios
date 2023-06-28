@@ -78,10 +78,10 @@ final class MovieQuizUITests: XCTestCase {
     }
 
     func testAlertDismiss() {
-        sleep(2)
+        sleep(3)
         for _ in 1...10 {
             app.buttons["No"].tap()
-            sleep(2)
+            sleep(3)
         }
         
         let alert = app.alerts["Result alert"]
