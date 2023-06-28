@@ -5,33 +5,33 @@
 //  Created by Арслан Кадиев on 12.06.2023.
 //
 
+
+
 import UIKit
 
-protocol AlertPresenterProtocol {
-    func showAlert (alertModel: AlertModel) -> Void
-    var delegate: MovieQuizProtocolDelegate? {get}
-}
-
-
-class AlertPresenter: AlertPresenterProtocol {
+class AlertPresenter: AlertProtocol{
+    private weak var delegate: AlertProtocolDelegate?
     
-    weak var delegate: MovieQuizProtocolDelegate?
     
-    init (delegate: MovieQuizProtocolDelegate) {
+    init(delegate: AlertProtocolDelegate) {
         self.delegate = delegate
     }
     
-    func showAlert(alertModel: AlertModel) {
+    func showAlert(model: AlertModel) {
         let alert = UIAlertController(
-            title: alertModel.title,
-            message: alertModel.message,
+            title: model.title,
+            message: model.message,
             preferredStyle: .alert)
-            
-        let action = UIAlertAction(title: alertModel.buttonText, style: .default) {_ in
-            alertModel.complection()
-        }
+        alert.view.accessibilityIdentifier = "Game result"
+        
+        let action = UIAlertAction(
+            title: model.buttonText,
+            style: .default) {_ in
+                model.completion()
+            }
+        
         alert.addAction(action)
-        delegate?.presentAlert(alert: alert)
+        delegate?.present(alert, animated: true, completion: nil)
     }
 }
 

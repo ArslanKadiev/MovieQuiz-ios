@@ -5,10 +5,14 @@
 //  Created by Арслан Кадиев on 22.06.2023.
 //
 
-import Foundation
+import UIKit
+
+protocol NetworkRouting {
+    func fetch(url: URL, handler: @escaping (Result<Data, Error>) -> Void)
+}
 
 /// Отвечает за загрузку данных по URL
-struct NetworkClient {
+struct NetworkClient: NetworkRouting {
 
     private enum NetworkError: Error {
         case codeError
@@ -38,4 +42,6 @@ struct NetworkClient {
         
         task.resume()
     }
+    
+    
 }
