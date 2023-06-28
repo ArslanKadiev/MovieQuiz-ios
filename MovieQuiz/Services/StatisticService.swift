@@ -7,14 +7,7 @@
 
 import Foundation
 
-protocol StatisticService {
-    
-    func store(correct count: Int, total amount: Int)
-    var totalAccuracy: Double { get }
-    var gamesCount: Int { get }
-    var bestGame: GameRecord { get }
-  
-}
+
 
 final class StatisticServiceImplementation: StatisticService {
     
@@ -23,14 +16,18 @@ final class StatisticServiceImplementation: StatisticService {
     }
     
     private let userDefaults = UserDefaults.standard
+    
+    
     var totalAccuracy: Double {
         get {
-            userDefaults.double(forKey: Keys.correct.rawValue)
+            userDefaults.double(forKey: Keys.total.rawValue)
         }
         set {
-            userDefaults.set(newValue, forKey: Keys.correct.rawValue )
+            userDefaults.set(newValue, forKey: Keys.total.rawValue)
         }
     }
+    
+    
     var gamesCount: Int {
         get {
             userDefaults.integer(forKey: Keys.gamesCount.rawValue)
@@ -39,37 +36,41 @@ final class StatisticServiceImplementation: StatisticService {
             userDefaults.set(newValue, forKey: Keys.gamesCount.rawValue)
         }
     }
-
+    
     
     var bestGame: GameRecord {
         get {
             guard let data = userDefaults.data(forKey: Keys.bestGame.rawValue),
-            let record = try? JSONDecoder().decode(GameRecord.self, from: data) else {
+                  let record = try? JSONDecoder().decode(GameRecord.self, from: data) else {
                 return .init(correct: 0, total: 0, date: Date())
             }
             return record
+            
         }
+        
         set {
             guard let data = try? JSONEncoder().encode(newValue) else {
-                print("Невозможно сохранить результат")
+                print("невозможно сохранить результат")
                 return
             }
             userDefaults.set(data, forKey: Keys.bestGame.rawValue)
+            
         }
     }
     
+    
     func store(correct count: Int, total amount: Int) {
-        let newGame = GameRecord(
-            correct: count,
-            total: amount,
-            date: Date())
+        let newGame = GameRecord(correct: count, total: amount, date: Date())
+        
         if newGame > bestGame {
             bestGame = newGame
         }
         
-        
-        let newGameAccuracy = Double(count) * 100 / Double(amount)
-        totalAccuracy = (totalAccuracy * Double(gamesCount) + newGameAccuracy) / Double(gamesCount+1)
+        if gamesCount != 0 {
+            totalAccuracy = (totalAccuracy + (Double(newGame.correct) / Double(newGame.total))) / 2.0
+        } else {
+            totalAccuracy = (Double(newGame.correct) / Double(newGame.total))
+        }
         gamesCount += 1
     }
 }

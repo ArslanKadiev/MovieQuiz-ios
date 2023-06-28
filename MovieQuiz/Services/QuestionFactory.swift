@@ -7,23 +7,15 @@
 
 import Foundation
 
-
-protocol QuestionFactoryProtocol {
-    func requestNextQuestion()
-    func loadData()
-} 
-
-
-protocol QuestionFactoryDelegate: AnyObject {
-    func didRecieveNextQuestion(question: QuizQuestion?)
-    func didLoadDataFromServer()
-    func didFailToLoadData(with error: Error)
+private enum QuestionError: String, Error {
+    case errorLoadImage = "Ошибка при загрузке изображения"
+    case errorRespons = "Ошибка загрузки данных"
 }
 
 class QuestionFactory: QuestionFactoryProtocol {
-    
     private let moviesLoader: MoviesLoading
     private weak var delegate: QuestionFactoryDelegate?
+    private var movies: [MostPopularMovie] = []
     
     
     init(moviesLoader: MoviesLoading, delegate: QuestionFactoryDelegate) {
@@ -31,54 +23,55 @@ class QuestionFactory: QuestionFactoryProtocol {
         self.delegate = delegate
     }
     
-    private var movies: [MostPopularMovie] = []
-    
     
     func loadData() {
-            moviesLoader.loadMovies { [weak self] result in
-                DispatchQueue.main.async {
-                    guard let self = self else { return }
-                    switch result {
-                    case .success(let mostPopularMovies):
-                        self.movies = mostPopularMovies.items
-                        self.delegate?.didLoadDataFromServer()
-                    case .failure(let error):
-                        self.delegate?.didFailToLoadData(with: error)
-                    }
+        moviesLoader.loadMovies { [weak self] result in
+            DispatchQueue.main.async {
+                guard let self = self else { return }
+                switch result {
+                case .success(let mostPopularMovies):
+                    self.movies = mostPopularMovies.items
+                    self.delegate?.didLoadDataFromServer()
+                case .failure(_):
+                    self.delegate?.didFailToLoadData(with: QuestionError.errorRespons)
                 }
             }
         }
+    }
+    
     
     func requestNextQuestion() {
         DispatchQueue.global().async { [weak self] in
             guard let self = self else { return }
             let index = (0..<self.movies.count).randomElement() ?? 0
-                
+            
             guard let movie = self.movies[safe: index] else { return }
-                
+            
             var imageData = Data()
-                
+            
             do {
                 imageData = try Data(contentsOf: movie.resizedImageURL)
             } catch {
-                print("Failed to load image")
+                DispatchQueue.main.async {
+                    self.delegate?.didFailToLoadData(with: QuestionError.errorLoadImage)
+                    return
+                }
             }
-                
+            
             let rating = Float(movie.rating) ?? 0
-                
-            let text = "Рейтинг этого фильма больше чем 7?"
-            let correctAnswer = rating > 7
-                
+            let checkRating = Int.random(in: 7...9)
+            let text = "Рейтинг этого фильма больше чем \(checkRating)?"
+            let correctAnswer = rating > Float(checkRating)
+            
             let question = QuizQuestion(image: imageData,
                                         text: text,
                                         correctAnswer: correctAnswer)
-                
+            
             DispatchQueue.main.async { [weak self] in
                 guard let self = self else { return }
-                self.delegate?.didRecieveNextQuestion(question: question)
+                self.delegate?.didReceiveNextQuestion(question: question)
             }
         }
     }
 }
-
 

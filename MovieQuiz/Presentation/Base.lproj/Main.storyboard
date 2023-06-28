@@ -127,7 +127,8 @@
                     <connections>
                         <outlet property="activityIndicator" destination="DP7-iF-mUN" id="pco-iE-aNG"/>
                         <outlet property="counterLabel" destination="nxf-lW-v7B" id="oxi-tK-Z3k"/>
-                        <outlet property="imageView" destination="kqa-cB-m6I" id="4dR-QU-YSh"/>
+                        <outlet property="imageView" destination="kqa-cB-m6I" id="35F-iM-UzF"/>
+                        <outlet property="mainView" destination="kqa-cB-m6I" id="EAw-re-xnd"/>
                         <outlet property="noButton" destination="Kmm-M3-iNB" id="qNB-HZ-IXU"/>
                         <outlet property="textLabel" destination="VhP-hF-R7m" id="aGX-4i-KEx"/>
                         <outlet property="yesButton" destination="lrG-X8-LdX" id="rk8-bQ-5jB"/>

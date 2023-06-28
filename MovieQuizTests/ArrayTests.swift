@@ -6,28 +6,24 @@
 //
 
 import XCTest
-
 @testable import MovieQuiz
 
 
-class ArrayTests: XCTestCase{
-    
+class ArrayTest: XCTestCase {
     func testGetValueInRange() throws{
+        let array = [0, 1, 2, 3, 4, 5]
         
-        let array = [1,1,2,3,5]
-        let value = array[safe: 2]
+        let indexArray = array[safe: 2]
         
-        XCTAssertNotNil(value)
-        XCTAssertEqual(value, 2)
-        
+        XCTAssertNotNil(indexArray)
+        XCTAssertEqual(indexArray, 2)
     }
     
-    func testGetValueOutOfRange() throws{
+    func testValueOutInRange() throws {
+        let array = [0, 1, 2, 3, 4, 5]
         
-        let array = [1,1,2,3,5]
-        let value = array[safe: 20]
+        let indexArray = array[safe: 7]
         
-        XCTAssertNil(value)
-        
+        XCTAssertNil(indexArray)
     }
 }
